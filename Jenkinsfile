@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = "belum/spring-sql-gradle-producer"
+        registry = "belum/spring-sql-maven-consumer"
         registryCredential = 'DH'
         dockerImage = ''
     }
@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Cloning our Git') {
             steps {
-                git 'https://github.com/BelumS/spring-sql-gradle-producer.git'
+                git 'https://github.com/BelumS/spring-sql-maven-consumer.git'
             }
         }
         stage('Building our image') {

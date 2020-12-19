@@ -3,12 +3,14 @@ MAINTAINER 'Bel Sahn'
 EXPOSE 8080
 
 RUN apt-get update && apt-get install -y unzip
-WORKDIR /gradle
-RUN curl -L https://services.gradle.org/distributions/gradle-5.6.4-bin.zip -o gradle-5.6.4-bin.zip
-RUN unzip gradle-5.6.4-bin.zip
-ENV GRADLE_HOME=/gradle/gradle-5.6.4
-ENV PATH=$PATH:$GRADLE_HOME/bin
-RUN gradle --version
+RUN apt-get install tree
+
+WORKDIR /mvn
+RUN curl -L https://apache.osuosl.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip -o apache-maven-3.6.3-bin.zip
+RUN unzip apache-maven-3.6.3-bin.zip
+ENV MAVEN_HOME=/mvn/apache-maven-3.6.3
+ENV PATH=$PATH:$MAVEN_HOME/bin
+RUN mvn --version
 
 ARG HOME=/app
 
@@ -20,5 +22,5 @@ ENV ENV=default
 WORKDIR ${HOME}
 COPY . ${HOME}
 
-RUN gradle clean build -x test --refresh-dependencies
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app/build/libs/spring-sql-gradle-producer-1.0-SNAPSHOT.jar"]
+RUN mvn clean install -DskipTests -Dlicense.skip=true -DcheckStyle.skip=true
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app/target/spring-sql-maven-consumer-0.0.1-SNAPSHOT.jar"]

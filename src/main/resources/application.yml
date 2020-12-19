@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring-sql-gradle-producer
+    name: spring-sql-maven-consumer
     description: A proof-of-concept Spring Data REST & JPA project
     version: "@application.version@"
     timestamp: "@application.buildTimestamp@"
